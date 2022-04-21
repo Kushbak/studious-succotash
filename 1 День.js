@@ -1,6 +1,6 @@
 let $ = 2000 // тип данных - число
 let str = "strinasasdag" // тип данных - строка
-let bool = false
+let bool = false // Булевое значение
 let n = undefined
 let n2 = null
 let obj = {}
