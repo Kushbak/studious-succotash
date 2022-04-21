@@ -92,7 +92,7 @@ function pow(x, n) {
     let result = x
     while(i < n) {
         result = result * x
-        i++
+        i = i + 1
     }
     return result
 }
