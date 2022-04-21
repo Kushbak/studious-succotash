@@ -12,12 +12,12 @@
 // delete obj.key2
 
 // console.log(obj)
-
+// console.log(obj2)
 
 // let user = {
 //     name: 'Kushbak',
 //     surname: 'Mamytov',
-//     age: 99,
+//     age: 80,
 // }
 
 // let product = {
