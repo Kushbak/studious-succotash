@@ -1,0 +1,50 @@
+header {
+  text-align: right;
+  padding: 20px;
+  background-color: cornflowerblue;
+  color: #fff;
+}
+
+.navigation-link {
+  color: #ffffff;
+  margin-right: 7px;
+  font-size: 18px;
+}
+
+section {
+  padding: 40px;
+}
+
+.home {
+  text-align: center;
+}
+
+.home img {
+  width: 20%;
+}
+
+.services {
+  background-color: cornflowerblue;
+  color: #fff;
+}
+
+.services h2 {
+  text-align: center;
+}
+
+
+@media (max-width: 700px) {
+  header {
+    text-align: center;
+  }
+
+  .home img {
+    width: 60%;
+  }
+}
+
+@media (max-width: 500px) {
+  body, .navigation-link {
+    font-size: 12px;
+  }
+}

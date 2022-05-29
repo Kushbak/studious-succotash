@@ -1,0 +1,27 @@
+/* div { */
+   /* просто надпись - обращение к тэгу */
+  /* background-color: red;
+  margin-bottom: 10px;
+} */
+
+.first {/* с точкой - обращение к классу */
+  background-color: aquamarine;
+  margin-bottom: 30px;
+}
+
+.second {
+  background-color: rebeccapurple;
+  color: white;
+}
+
+#anotherDiv  { /* с решеткой - обращение к айди */
+  background-color: pink;
+  color: darkgreen;
+}
+
+body .container div .second {
+  /* color: blueviolet; */
+  color: rebeccapurple;
+  padding-top: 100px;
+  color: red;
+}
