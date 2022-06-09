@@ -187,15 +187,22 @@ goodsArr.forEach(item => {
 })
 
 const addCartBtns = document.querySelectorAll('#add-cart-btn')
+const clearCartBtn = document.querySelector('#cart-clean-btn')
 
-let cartArr = []
+let cartArr = [{
+  id: 1,
+  name: 'Парта', 
+  cartItemIndex: 12,
+  count: 5
+}]
 
 let cartItemIndex = 0
 const renderCart = () => {
   const cartsLayout = cartArr.map((item, index) => {
     return `
-      <div class='cart-item'>
-        <p>${item.name}</p>
+      <div class='cart-item' data-cartItemId='${item.id}'>
+        <button class='decrement-cart-item-btn'>-</button>
+        <p>${item.name} ${item.count}x</p>
         <button class='delete-cart-btn' data-cart='${item.cartItemIndex}'>Удалить</button>
       </div>
     `
@@ -213,17 +220,46 @@ const renderCart = () => {
       renderCart()
     })
   })
+
+  const decrementCartItemBtns = document.querySelectorAll('.decrement-cart-item-btn')
+  decrementCartItemBtns.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      let cartItemId = event.target.parentElement.getAttribute('data-cartItemId')
+      let cartGoodIndex = cartArr.findIndex(g => +g.id === +cartItemId)
+      if(cartArr[cartGoodIndex].count > 0) {
+        cartArr[cartGoodIndex].count--
+      }
+      renderCart()
+    })
+  })
 }
+
 
 addCartBtns.forEach(item => {
   item.addEventListener('click', () => {
     cartItemIndex++
     let goodId = item.getAttribute('data-good')
     let selectedGood = goodsArr.find(g => +g.id === +goodId)
-    cartArr.push({ ...selectedGood, cartItemIndex: cartItemIndex })
+    let cartGoodIndex = cartArr.findIndex(g => +g.id === +goodId) 
+    if(cartGoodIndex === -1) {
+      cartArr.push({ ...selectedGood, cartItemIndex: cartItemIndex, count: 1 })
+    } else {
+      cartArr[cartGoodIndex].count++
+    }
+    
     renderCart()
   })
 })
+
+clearCartBtn.addEventListener('click', () => {
+  cartArr = [
+    { name: 'Парты'},
+    { name: 'Стулья'},
+    { name: 'Ноутбуки'},
+  ]
+  renderCart()
+})
+
 
 
 // Сделать кнопку "Удалить все"
