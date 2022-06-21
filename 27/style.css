@@ -76,3 +76,15 @@
   width: 20px;
   height: 20px;
 }
+
+.sort-by-name {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.sort-by-name img {
+  width: 20px;
+  height: 20px;
+}

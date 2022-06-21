@@ -4,6 +4,8 @@ const cart = document.querySelector('.cart-items')
 const deleteAllBtn = document.querySelector('#delete-all-btn')
 const buyBtn = document.querySelector('#but-btn')
 
+const sortByNameBtn = document.querySelector('.sort-by-name')
+
 // Константа, пишется большими буквами snake_case, редко меняется в течение проекта
 const API_URL = 'https://629b451acf163ceb8d16f330.mockapi.io/api/ecommerce-js-course/'
 
@@ -19,6 +21,28 @@ let cartArr = []
 
 // Статусы коды Запроса
 // 200 успешно и тд
+let isAscSorting = false
+sortByNameBtn.addEventListener('click', () => {
+  const arrowImg = sortByNameBtn.querySelector('img')
+  if(isAscSorting) {
+    ordersArr.sort((a, b) => {
+      if(a.name > b.name) return 1
+      if(a.name < b.name) return -1
+      return 0
+    })
+    arrowImg.style.transform = 'rotate(0deg)'
+  } else {
+    ordersArr.sort((a, b) => {
+      if(a.name < b.name) return 1
+      if(a.name > b.name) return -1
+      return 0
+    })
+    arrowImg.style.transform = 'rotate(180deg)'
+  } 
+  isAscSorting = !isAscSorting
+
+  renderOrders(ordersArr)
+})
 
 
 let count = 0
@@ -74,6 +98,7 @@ const renderCart = (fetchedCart) => {
     cartItems.forEach(item => {
       const plusBtn = item.querySelector('.plus-btn')
       const minusBtn = item.querySelector('.minus-btn')
+      const deleteBtn = item.querySelector('.delete-cart-btn')
 
       const countItem = item.querySelector('.cart-item-count')
       const orderId = item.getAttribute('data-orderId')
@@ -90,6 +115,10 @@ const renderCart = (fetchedCart) => {
           .then(() => {
             renderCart(cartArr)
           })
+      })
+
+      deleteBtn.addEventListener('click', () => {
+        deleteCartItem(orderId)
       })
     })
 
@@ -176,6 +205,14 @@ function handleClickAddToCart(fetchedOrders, e) {
         true
       )
     }
+}
+
+function deleteCartItem(id) {
+  return fetch(`${API_URL}cart/${id}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(() => fetchItems('cart'))
 }
 
 // Получение данных корзины(на любой странице) 

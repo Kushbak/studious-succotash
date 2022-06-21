@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <div class="resultView">
+        <p id="prev" class="prev"></p>
+        <input class="input" type="text" disabled>
+    </div>
+    <div class="buttons">
+        <div class="buttonsLine">
+          <button id="cleanLastNum" class="button"><<<<</button>
+        </div>
+        <div class="buttonsLine">
+            <button class="button num">7</button>
+            <button class="button num">8</button>
+            <button class="button num">9</button>
+            <button id="multiple" class="button operators">x</button>
+        </div>
+        <div class="buttonsLine">
+            <button class="button num">4</button>
+            <button class="button num">5</button>
+            <button class="button num">6</button>
+            <button id="divide" class="button operators">/</button>
+            
+        </div>
+        <div class="buttonsLine">
+            <button class="button num">1</button>
+            <button class="button num">2</button>
+            <button class="button num">3</button>
+            <button id="minus" class="button operators">-</button>
+        </div>
+        <div class="buttonsLine">
+            <button id="equal" class="button" data-result="">=</button>
+            <button class="button num">0</button>
+            <button id="clear" class="button">C</button>
+            <button id="plus" class="button operators">+</button>
+        </div>
+    </div>
+
+  </div>
+  
+<script src="script.js"></script>
+</body>
+</html>
