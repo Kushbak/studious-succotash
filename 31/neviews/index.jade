@@ -1,3 +1,5 @@
+//- Jade || Pug
+
 html(lang="en")
   head
     meta(charset="UTF-8")
@@ -9,4 +11,4 @@ html(lang="en")
     ul
       each user in users 
         li 
-          a(href='/' + user.username)= user.fullname 
+          a(href='/' + user.username)= user.name 
