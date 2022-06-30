@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Handlebars engine</title>
@@ -7,17 +8,30 @@
 <style>
   input {
     margin-bottom: 10px;
+    height: 30px;
+    border: 1px solid #0e0e0e;
+    border-radius: 2px;
+    outline: none;
+    padding: 5px;
   }
+
+  button {
+    width: 160px;
+    padding: 5px;
+    height: 30px;
+  }
+
 </style>
+
 <body>
   <a href="/">На главную</a>
   <h1>{{user.name}}</h1>
 
   <div style="
-    width: 400px;
     display: flex;
-    gap: 30px;
     justify-content: space-between;
+    width: 400px;
+    gap: 30px;
   ">
     <div class="img-block">
       <img width="200" src={{user.avatar}} alt={{user.username}}>
@@ -29,26 +43,45 @@
     </div>
   </div>
 
+  <div class="hobbies">
+    <div>
+      <input type="text" name="hobby" placeholder="type your hobby">
+      <button type="button" id='sendHobby'>
+        Send
+      </button>
+    </div>
+    <ul>
+      {{#each user.hobbies as |hobby|}}
+      <li>
+        {{hobby}}
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+ 
   <script>
+    // Получение хтмл элемента
     const name = document.querySelector('input[name="name"]')
     const username = document.querySelector('input[name="username"]')
     const city = document.querySelector('input[name="city"]')
 
-    const customFetch = (body) => {
-      fetch('http://localhost:3000/api/user/'+ username.value, {
-        method: 'PUT',
+  // Функция для запроса
+    const customFetch = (body, method = 'PUT') => {
+      fetch('http://localhost:3000/api/user/' + username.value, {
+        method: method,
         body: JSON.stringify(body),
         headers: {
           'Content-Type': 'application/json'
         }
       })
-      .then(() => {
-        window.location.reload()
-      })
+        .then(() => {
+          window.location.reload()
+        })
     }
 
+    // Привязка события blur | 'click'
     name.addEventListener('blur', () => {
-       customFetch({ name: name.value })
+      customFetch({ name: name.value })
     })
     username.addEventListener('blur', () => {
       customFetch({ username: username.value })
@@ -58,4 +91,5 @@
     })
   </script>
 </body>
+
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create User</title>
+</head>
+<body>
+  <h1>Создание нового пользователя</h1>
+
+  <form id="create-user-form">
+    <img src={{user.image}} alt="">
+    <input type="text" name="name">
+    <input type="text" name="username">
+    <input type="text" name="city">
+    <button type="submit">Create</button>
+  </form>
+  <script>
+    const form = document.querySelector('#create-user-form')
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const formdata = new FormData(form)
+      fetch('http://localhost:3000/api/user', {
+        method: 'POST',
+        body: formdata
+      })
+      console.log(formdata)
+    })
+  </script>
+</body>
+</html>
