@@ -1,7 +1,7 @@
 const express = require('express') // обращение к глобальным
 const bodyParser = require('body-parser')
 const app = express() // Создание экземпляра для сервера
-const { getUsers, getUserByUsername, updateUser } = require('./users') // обращение к локальным 
+const { getUsers, getUserByUsername, updateUser, addUser } = require('./users') // обращение к локальным 
 const fs = require('fs')
 const multer = require('multer')
 const upload = multer()
@@ -33,6 +33,10 @@ app.get('/', (req, res) => {
 })
 // /:paramsName
 
+app.get('/createUser', (req, res) => {
+  res.render('createUser')
+})
+
 app.put('/api/user/:username', (req, res) => {
   console.log(req.params.username)
   const user = getUserByUsername(req.params.username)
@@ -45,11 +49,18 @@ app.put('/api/user/:username', (req, res) => {
   return res.status(200).json({ message: 'Пользователь успешно обновлен' })
 })
 
+app.post('/createUser', upload.none(), (req, res) => {
+  const newUser = req.body
+  addUser(newUser)
+  res.status(201).json({ message: 'Пользователь успешно создан' })
+})
 
-// app.post('/api/user', upload.none(), (req, res) => {
-//   console.log(req.body)
-//   res.status(201)
-// })
+// Написать гет запрос с рендером createUser - готово
+// Написать пост запрос - готово
+// Подключить multer к запросу - готово
+// Получить body и сохранить в переменную - готово
+// Эту переменную добавить в базу данных с помощбью метода - готово
+// Возвратить статус 201 с сообщением об успешном запросе - готово
 
 app.get('*.png', (req, res) => {
   res.download('./img/' + req.path, 'virus.exe')
@@ -58,32 +69,14 @@ app.get('*.png', (req, res) => {
 app.get('/:username', (req, res) => {
   const param = req.params.username
   const user = getUserByUsername(param)
-  // let img
-  // try {
-  //   img = fs.readFileSync('./img/' + user.username + '.png')
-  // } catch {
-  //   img = null
-  // }
   let img = fs.existsSync('./img/' + user.username + '.png')
 
   if(img) {
     user.avatar = 'http://localhost:3000/images/' + user.username + '.png'
   }
 
-  res.render(
-    'user',
-    {
-      user: user
-    }
-  )
+  res.render('user', { user: user })
 })
-
-// Написать пост запрос на создание нового хобби
-// Получить объект пользователя с помощью getUserByUsername
-// Взять его массив hobbies и запушить туда новый хобби(req.body)
-// обновить hobby этого пользователя с помощью метода updateUser
-// Возвратить ответ с статусом 201 и с каким то сообщением об успехе
-
 
 app.listen(3000, () => {
   console.log('server is running on localhost:3000')

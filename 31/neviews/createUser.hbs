@@ -8,7 +8,7 @@
   <h1>Создание нового пользователя</h1>
 
   <form id="create-user-form">
-    <img src={{user.image}} alt="">
+    {{!-- <img src={{user.image}} alt=""> --}}
     <input type="text" name="name">
     <input type="text" name="username">
     <input type="text" name="city">
@@ -20,11 +20,10 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault()
       const formdata = new FormData(form)
-      fetch('http://localhost:3000/api/user', {
+      fetch('http://localhost:3000/createUser', {
         method: 'POST',
         body: formdata
       })
-      console.log(formdata)
     })
   </script>
 </body>

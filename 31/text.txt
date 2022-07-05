@@ -53,7 +53,10 @@
     "username": "andrew9",
     "city": "Bishkek",
     "avatar": "https://avatars3.githubusercontent.com/u/1071625?s=400&u=f19e921ec34fc145d2b0b05f6cdd3472240c885b&v=4",
-    "hobbies": ["sport", "swim"]
+    "hobbies": [
+      "sport",
+      "swim"
+    ]
   },
   {
     "name": "Andrew 10",
@@ -89,5 +92,15 @@
     "city": "Bishkek",
     "avatar": "https://avatars3.githubusercontent.com/u/1071625?s=400&u=f19e921ec34fc145d2b0b05f6cdd3472240c885b&v=4",
     "hobbies": []
+  },
+  {
+    "name": "Some User Name",
+    "username": "someUsername2",
+    "city": "Bishkek"
+  },
+  {
+    "name": "Some 2",
+    "username": "some2",
+    "city": "Bishkek"
   }
 ]
