@@ -1,17 +1,16 @@
+
 const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
-const URI = "";
-const ordersRoutes = require('./routes/orders')
+const orderRoutes = require('./routes/order')
+const cartRoutes = require('./routes/cart')
+const URI = "mongodb+srv://kushbak:12345@cluster0.dcknien.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Вы получили это сообщение' })
-})
-
-app.use('/orders', ordersRoutes)
+app.use('/orders', orderRoutes)
+app.use('/cart', cartRoutes)
 
 async function start() {
   try {
@@ -26,5 +25,4 @@ async function start() {
     console.log(e)
   }
 }
-
 start()
