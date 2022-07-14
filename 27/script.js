@@ -7,7 +7,7 @@ const buyBtn = document.querySelector('#but-btn')
 const sortByNameBtn = document.querySelector('.sort-by-name')
 
 // Константа, пишется большими буквами snake_case, редко меняется в течение проекта
-const API_URL = 'https://629b451acf163ceb8d16f330.mockapi.io/api/ecommerce-js-course/'
+const API_URL = 'http://localhost:3000/'
 
 // Массив товаров интернет магазина
 let ordersArr = []
@@ -21,28 +21,30 @@ let cartArr = []
 
 // Статусы коды Запроса
 // 200 успешно и тд
-let isAscSorting = false
-sortByNameBtn.addEventListener('click', () => {
-  const arrowImg = sortByNameBtn.querySelector('img')
-  if(isAscSorting) {
-    ordersArr.sort((a, b) => {
-      if(a.name > b.name) return 1
-      if(a.name < b.name) return -1
-      return 0
-    })
-    arrowImg.style.transform = 'rotate(0deg)'
-  } else {
-    ordersArr.sort((a, b) => {
-      if(a.name < b.name) return 1
-      if(a.name > b.name) return -1
-      return 0
-    })
-    arrowImg.style.transform = 'rotate(180deg)'
-  } 
-  isAscSorting = !isAscSorting
-
-  renderOrders(ordersArr)
-})
+if(sortByNameBtn) {
+  let isAscSorting = false
+  sortByNameBtn.addEventListener('click', () => {
+    const arrowImg = sortByNameBtn.querySelector('img')
+    if(isAscSorting) {
+      ordersArr.sort((a, b) => {
+        if(a.name > b.name) return 1
+        if(a.name < b.name) return -1
+        return 0
+      })
+      arrowImg.style.transform = 'rotate(0deg)'
+    } else {
+      ordersArr.sort((a, b) => {
+        if(a.name < b.name) return 1
+        if(a.name > b.name) return -1
+        return 0
+      })
+      arrowImg.style.transform = 'rotate(180deg)'
+    } 
+    isAscSorting = !isAscSorting
+  
+    renderOrders(ordersArr)
+  })
+}
 
 
 let count = 0
@@ -51,7 +53,7 @@ const renderOrders = (fetchedOrders) => {
   let ordersLayout = ''
   for(let i = 0; i < fetchedOrders.length; i++) {
     ordersLayout += `
-    <div class="order" data-orderId='${fetchedOrders[i].id}'>
+    <div class="order" data-orderId='${fetchedOrders[i]._id}'>
       <img src="${fetchedOrders[i].img}" alt="" class="order-img">
       <h3 class="order-title">${fetchedOrders[i].name}</h3>
       <button class="button order-btn">В корзину</button>
@@ -78,8 +80,8 @@ const renderCart = (fetchedCart) => {
     let cartLayout = ''
     for(let i = 0; i < fetchedCart.length; i++) {
       cartLayout += `
-      <div class="cart-item" data-orderId='${fetchedCart[i].id}'>
-        <h3 class="cart-item-title">${fetchedCart[i].name}</h3>
+      <div class="cart-item" data-orderId='${fetchedCart[i]._id}'>
+        <h3 class="cart-item-title">${fetchedCart[i].order.name}</h3>
         <div class="cart-actions">
           <button class="button cart-action-btn minus-btn">-</button>
           <p class="cart-item-count">${fetchedCart[i].count}</p>
@@ -144,7 +146,7 @@ function fetchItems(fetchName) {
 
 // Добавление нового товара в корзину
 // вызов этой асинхронной функции возвращает объект нового товара { id, name, count, img }
-function addOrderToCart(selectedOrder) {
+function addOrderToCart(order) {
   return fetch(
     `${API_URL}cart/`, 
     {
@@ -152,7 +154,7 @@ function addOrderToCart(selectedOrder) {
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ ...selectedOrder, count: 1, orderId: selectedOrder.id })
+      body: JSON.stringify({ orderId: order })
     }
   )
     .then(res => res.json())
@@ -191,16 +193,17 @@ function handleClickAddToCart(fetchedOrders, e) {
     count++
     // Поиск нажатых элементов и объектов
     let orderId = e.target.parentElement.getAttribute('data-orderId')
-    let selectedOrder = fetchedOrders.find(item => +item.id === +orderId)
-    let cartOrderIndex = cartArr.findIndex(item => +item.orderId === +orderId)
+    let cartOrderIndex = cartArr.findIndex(item => item.order._id === orderId)
 
+    console.log(cartArr, cartOrderIndex)
     // Добавление если товара нет в корзине
     // Увеличение кол-ва товара если он уже есть в корзине
+
     if(cartOrderIndex === -1) {
-      addOrderToCart(selectedOrder)
+      addOrderToCart(orderId)
     } else {
       updateCartItem(
-        cartArr[cartOrderIndex].orderId, 
+        cartArr[cartOrderIndex]._id, 
         cartArr[cartOrderIndex].count, 
         true
       )
